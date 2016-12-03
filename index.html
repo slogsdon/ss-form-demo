@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">body { padding-top: 40px; }</style>
+    <title>Demo</title>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <div id="cardNumber"></div>
+    <div id="cardExp"></div>
+    <div id="cardCvv"></div>
+    <div id="cardSubmit"></div>
+    <script type="text/javascript" src="https://api.heartlandportico.com/SecureSubmit.v1/token/2.1/securesubmit.js"></script>
+    <script type="text/javascript">
+      (function (window, document, Heartland, undefined) {
+        var hps;
+        function load() {
+          hps = new Heartland.HPS({
+            publicKey: 'pkapi_cert_dNpEYIISXCGDDyKJiV',
+            type: 'iframe',
+            fields: {
+              cardNumber: {
+                target: 'cardNumber',
+                placeholder: '•••• •••• •••• ••••'
+              },
+              cardCvv: {
+                target: 'cardCvv',
+                placeholder: 'Security Code'
+              },
+              cardExpiration: {
+                target: 'cardExp',
+                placeholder: 'MM / YYYY'
+              },
+              submit: {
+                target: 'cardSubmit'
+              }
+            },
+            style: {
+              'input': {
+                '-webkit-appearance': 'none',
+                'border-radius': '5px',
+                'padding': '5px',
+                'background': 'transparent',
+                'outline': 'none',
+                'margin': '0',
+                'font-size': '12pt',
+                'border': '1px solid #f4f4f4',
+                'width': 'calc(100% - 12px)'
+              },
+              'input[type="submit"]': {
+                'border': '0',
+                'width': '100%'
+              }
+            },
+            onTokenSuccess: function (response) {
+              console.log(response);
+              var interval = setInterval(function () {
+                if (typeof window.webkit === 'undefined') {
+                  console.log('not in webview');
+                  clearInterval(interval);
+                }
+                if (webkit.messageHandlers &&
+                    webkit.messageHandlers.callbackHandler) {
+                  webkit.messageHandlers.callbackHandler.postMessage(response.token_value);
+                  clearInterval(interval);
+                }
+              }, 100);
+            },
+            onTokenError: function (response) {
+              console.log(response);
+            }
+          });
+        }
+        window.load = load;
+      }(window, window.document, Heartland));
+    </script>
+  </body>
+</html>
