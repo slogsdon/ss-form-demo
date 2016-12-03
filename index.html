@@ -13,9 +13,7 @@
     <script type="text/javascript" src="https://api.heartlandportico.com/SecureSubmit.v1/token/2.1/securesubmit.js"></script>
     <script type="text/javascript">
       (function (window, document, Heartland, undefined) {
-        var hps;
-        function load() {
-          hps = new Heartland.HPS({
+        var hps = new Heartland.HPS({
             publicKey: 'pkapi_cert_dNpEYIISXCGDDyKJiV',
             type: 'iframe',
             fields: {
@@ -70,9 +68,7 @@
               console.log(response);
             }
           });
-        }
-        window.load = load;
       }(window, window.document, Heartland));
     </script>
   </body>
-</html> 
+</html>
