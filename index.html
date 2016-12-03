@@ -54,15 +54,13 @@
             onTokenSuccess: function (response) {
               console.log(response);
               var interval = setInterval(function () {
-                if (typeof window.webkit === 'undefined') {
+                if (typeof window.postMessage === 'undefined') {
                   console.log('not in webview');
                   clearInterval(interval);
+                  return;
                 }
-                if (webkit.messageHandlers &&
-                    webkit.messageHandlers.callbackHandler) {
-                  webkit.messageHandlers.callbackHandler.postMessage(response.token_value);
-                  clearInterval(interval);
-                }
+                window.postMessage(response.token_value);
+                return;
               }, 100);
             },
             onTokenError: function (response) {
